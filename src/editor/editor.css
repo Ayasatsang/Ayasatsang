@@ -1,0 +1,335 @@
+/* ============================================
+   Visual Editor Styles
+   ============================================ */
+
+/* Editor Toolbar */
+.editor-toolbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px;
+  background: #1e1e1e;
+  border-top: 1px solid #3d3d3d;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.editor-toolbar-minimal {
+  justify-content: flex-end;
+  padding: 8px 16px;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.editor-toolbar-left,
+.editor-toolbar-center,
+.editor-toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.editor-toolbar-center {
+  flex: 1;
+  justify-content: center;
+}
+
+/* Editor Buttons */
+.editor-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border: 1px solid #4b5563;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+  background: #2d2d2d;
+  color: #e5e7eb;
+}
+
+.editor-btn:hover:not(:disabled) {
+  background: #3d3d3d;
+  border-color: #6b7280;
+}
+
+.editor-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.editor-btn-primary {
+  background: #3b82f6;
+  color: white;
+}
+
+.editor-btn-primary:hover:not(:disabled) {
+  background: #2563eb;
+}
+
+.editor-btn-secondary {
+  background: #374151;
+  color: #e5e7eb;
+}
+
+.editor-btn-secondary:hover:not(:disabled) {
+  background: #4b5563;
+}
+
+.editor-btn-ghost {
+  background: transparent;
+  color: #9ca3af;
+}
+
+.editor-btn-ghost:hover:not(:disabled) {
+  background: #374151;
+  color: #e5e7eb;
+}
+
+.editor-btn-active {
+  background: #059669;
+  border-color: #059669;
+  color: white;
+}
+
+.editor-btn-active:hover:not(:disabled) {
+  background: #047857;
+  border-color: #047857;
+}
+
+/* Status indicators */
+.editor-status-dirty {
+  color: #f59e0b;
+  font-size: 13px;
+}
+
+.editor-status-saving,
+.editor-status-publishing {
+  color: #3b82f6;
+  font-size: 13px;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* ============================================
+   Editable Text Styles
+   ============================================ */
+
+/* Blue border on hover - using box-shadow for gradient text compatibility */
+.editable-text.editable-hovered,
+.editable-text.editable-active {
+  box-shadow:
+    0 0 0 2px #3b82f6,
+    0 0 0 6px rgba(59, 130, 246, 0.15) !important;
+  border-radius: 8px;
+}
+
+/* Active editing state - thicker border */
+.editable-text.editable-active {
+  box-shadow:
+    0 0 0 3px #3b82f6,
+    0 0 0 8px rgba(59, 130, 246, 0.2) !important;
+}
+
+/* Floating toolbar above element */
+.editable-toolbar {
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 8px;
+  background: #1e1e1e;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+}
+
+.editable-toolbar-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  color: #9ca3af;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.editable-toolbar-btn:hover {
+  background: #374151;
+  color: #fff;
+}
+
+/* Editable text base styles */
+.editable-text {
+  transition: box-shadow 0.15s ease;
+  /* Note: border-radius removed from base class - it breaks background-clip:text for gradient text */
+}
+
+/* Override scroll animations in edit mode - elements must be visible for editing */
+.editable-text.scroll-animate {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+.editable-text:focus {
+  outline: none;
+}
+
+/* Modal */
+.editor-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+}
+
+.editor-modal {
+  width: 100%;
+  max-width: 360px;
+  background: #1e1e1e;
+  border-radius: 12px;
+  border: 1px solid #3d3d3d;
+  overflow: hidden;
+}
+
+.editor-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid #3d3d3d;
+}
+
+.editor-modal-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #e5e7eb;
+}
+
+.editor-modal-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  background: transparent;
+  border: none;
+  color: #9ca3af;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.editor-modal-close:hover {
+  background: #374151;
+  color: #e5e7eb;
+}
+
+.editor-modal-body {
+  padding: 20px;
+}
+
+.editor-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 16px 20px;
+  border-top: 1px solid #3d3d3d;
+}
+
+.editor-input {
+  width: 100%;
+  padding: 10px 14px;
+  background: #374151;
+  border: 1px solid #4b5563;
+  border-radius: 6px;
+  color: #e5e7eb;
+  font-size: 14px;
+}
+
+.editor-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
+
+.editor-input::placeholder {
+  color: #6b7280;
+}
+
+.editor-error {
+  margin-top: 8px;
+  color: #ef4444;
+  font-size: 13px;
+}
+
+/* Editable Image */
+.editable-image-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.editor-mode-active .editable-image-wrapper {
+  cursor: pointer;
+}
+
+.editable-image-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  border-radius: 4px;
+}
+
+.editor-mode-active .editable-image-wrapper:hover .editable-image-overlay {
+  opacity: 1;
+}
+
+.editable-image-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.editable-image-btn:hover {
+  background: #2563eb;
+}
+
+/* Add padding at bottom when toolbar is visible */
+.editor-mode-active {
+  padding-bottom: 60px;
+}

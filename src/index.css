@@ -1,0 +1,1967 @@
+/*
+  AYA Design System - Fonts from Figma
+  =====================================
+  - Marck Script: Display headers (replacement for Brush Script MT with Cyrillic support)
+  - Inter: Navigation, buttons, body text, headings, cards
+*/
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Marck+Script&display=swap');
+
+@font-face {
+  font-family: 'Brush Script MT';
+  src: url('/fonts/BrushScriptStd.otf') format('opentype');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Заборона overscroll — сторінка не виходить за межі */
+html,
+body {
+  overscroll-behavior: none;
+}
+
+/* ===== ADMIN PANEL - Normal sizing (not fluid) ===== */
+/* Override html font-size when admin panel or status page is active */
+html:has(.admin-root),
+html:has(.status-root) {
+  font-size: 16px !important;
+}
+.admin-root {
+  font-family: 'Inter', system-ui, sans-serif;
+}
+.admin-root h1 {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 1.5rem !important;
+  line-height: 1.3 !important;
+  letter-spacing: normal !important;
+}
+.admin-root h2 {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 1.25rem !important;
+  line-height: 1.3 !important;
+  letter-spacing: normal !important;
+}
+.admin-root h3 {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 1rem !important;
+  line-height: 1.4 !important;
+  letter-spacing: normal !important;
+}
+.admin-root h4,
+.admin-root h5,
+.admin-root h6 {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.875rem !important;
+  line-height: 1.4 !important;
+  letter-spacing: normal !important;
+}
+
+/* AYA Design System - Dreamy Sky Theme */
+
+/*
+  Viewport-Based Fluid Scaling (як fixar.pro)
+  ===========================================
+  Base: 1440px екран = 1rem = 1px
+  Всі значення з Figma копіюються напряму в rem
+*/
+html {
+  /* Desktop: 1rem = 1px при 1440px екрані */
+  /* clamp обмежує мінімум (720px екран) та максимум (2160px екран) */
+  font-size: clamp(0.5px, calc(100vw / 1440), 1.5px);
+  scroll-behavior: smooth;
+  /* Блокуємо горизонтальний скрол без створення scroll context */
+  overflow-x: clip;
+  overflow-y: auto;
+  /* Основний фон сторінки */
+  background-color: #73BEEC;
+}
+
+body {
+  /* Запобігаємо розтягуванню body через fixed/absolute елементи */
+  overflow: clip;
+}
+
+/* ===== ANIMATIONS ===== */
+
+/* Initial page load animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(60rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Hero sunshine pulse animation */
+@keyframes sunshine-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: translate(-50%, 0) scale(1.05);
+  }
+}
+
+/* Hero cat wiggle animation */
+@keyframes cat-appear {
+  0% {
+    opacity: 0;
+    transform: translateY(30rem) rotate(-5deg);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-5rem) rotate(3deg);
+  }
+  80% {
+    transform: translateY(2rem) rotate(-2deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg);
+  }
+}
+
+/* Hero clouds gentle drift */
+@keyframes clouds-drift {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(10rem);
+  }
+}
+
+/* Hero background subtle zoom */
+@keyframes hero-bg-breathe {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+/* Hero elements - static (no animation on SPA navigation) */
+.hero-animate,
+.hero-animate-delay-1,
+.hero-animate-delay-2,
+.hero-animate-delay-3 {
+  opacity: 1;
+}
+
+/* Hero sunshine glow animation */
+.hero-sunshine {
+  animation: sunshine-pulse 4s ease-in-out infinite;
+}
+
+/* Hero cat animation */
+.hero-mobile-cat {
+  animation: cat-appear 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s forwards;
+  opacity: 0;
+}
+
+/* Hero background breathing effect */
+.hero-bg-image {
+  animation: hero-bg-breathe 8s ease-in-out infinite;
+  transform-origin: center center;
+}
+
+/* Light beams shimmer animation */
+@keyframes light-shimmer {
+  0%, 100% {
+    opacity: 0.9;
+    filter: brightness(1);
+  }
+  50% {
+    opacity: 1;
+    filter: brightness(1.15);
+  }
+}
+
+.light-beam {
+  animation: light-shimmer 3s ease-in-out infinite;
+}
+
+/* Header fade in animation */
+@keyframes header-slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-20rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.header-animate {
+  opacity: 1;
+}
+
+/* Scroll-triggered animations */
+.scroll-animate {
+  opacity: 0;
+  transform: translateY(50rem);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  will-change: opacity, transform;
+}
+.scroll-animate.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Slide from left */
+.scroll-animate-left {
+  opacity: 0;
+  transform: translateX(-100rem);
+  transition: opacity 0.9s ease-out, transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.scroll-animate-left.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Slide from right */
+.scroll-animate-right {
+  opacity: 0;
+  transform: translateX(100rem);
+  transition: opacity 0.9s ease-out, transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.scroll-animate-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Scale up with fade */
+.scroll-animate-scale {
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 0.7s ease-out, transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.scroll-animate-scale.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Rotate in */
+.scroll-animate-rotate {
+  opacity: 0;
+  transform: rotate(-15deg) scale(0.8);
+  transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.scroll-animate-rotate.visible {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
+/* Float animation (continuous after appear) */
+@keyframes float-gentle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12rem); }
+}
+.scroll-animate-float {
+  opacity: 0;
+  transform: translateY(30rem);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+.scroll-animate-float.visible {
+  opacity: 1;
+  transform: translateY(0);
+  animation: float-gentle 4s ease-in-out infinite;
+  animation-delay: 0.8s;
+}
+
+/* Sparkle/twinkle for stars and crystals */
+@keyframes sparkle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(0.95); }
+}
+.scroll-animate-sparkle {
+  opacity: 0;
+  transform: scale(0.5);
+  transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.scroll-animate-sparkle.visible {
+  opacity: 1;
+  transform: scale(1);
+  animation: sparkle 2.5s ease-in-out infinite;
+  animation-delay: 0.6s;
+}
+
+/* Diamond/crystal special animation */
+@keyframes crystal-glow {
+  0%, 100% {
+    opacity: 1;
+    filter: brightness(1) drop-shadow(0 0 10rem rgba(255,255,255,0.3));
+  }
+  50% {
+    opacity: 0.85;
+    filter: brightness(1.2) drop-shadow(0 0 20rem rgba(255,255,255,0.6));
+  }
+}
+.scroll-animate-crystal {
+  opacity: 0;
+  transform: translateY(40rem) rotate(-10deg);
+  transition: opacity 1s ease-out, transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.scroll-animate-crystal.visible {
+  opacity: 1;
+  transform: translateY(0) rotate(0deg);
+  animation: crystal-glow 3s ease-in-out infinite;
+  animation-delay: 1s;
+}
+
+/* Staggered delays for children */
+.scroll-animate.delay-1, .scroll-animate-left.delay-1, .scroll-animate-right.delay-1,
+.scroll-animate-scale.delay-1, .scroll-animate-float.delay-1, .scroll-animate-crystal.delay-1 {
+  transition-delay: 0.1s;
+}
+.scroll-animate.delay-2, .scroll-animate-left.delay-2, .scroll-animate-right.delay-2,
+.scroll-animate-scale.delay-2, .scroll-animate-float.delay-2, .scroll-animate-crystal.delay-2 {
+  transition-delay: 0.2s;
+}
+.scroll-animate.delay-3, .scroll-animate-left.delay-3, .scroll-animate-right.delay-3,
+.scroll-animate-scale.delay-3, .scroll-animate-float.delay-3, .scroll-animate-crystal.delay-3 {
+  transition-delay: 0.3s;
+}
+.scroll-animate.delay-4, .scroll-animate-left.delay-4, .scroll-animate-right.delay-4,
+.scroll-animate-scale.delay-4, .scroll-animate-float.delay-4, .scroll-animate-crystal.delay-4 {
+  transition-delay: 0.4s;
+}
+.delay-5 { transition-delay: 0.5s; }
+.delay-6 { transition-delay: 0.6s; }
+
+/* ============================================================
+   Gold button — universal CTA style for ALL buttons on site
+   ============================================================ */
+.btn-gold {
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(circle at 62% 51%, #FFD79F 0%, #E4AC76 100%);
+  box-shadow: 0px 1px 1px 0px rgba(193, 144, 96, 0.12),
+              0px 4px 15px 0px rgba(193, 144, 96, 0.11),
+              inset 0px 1px 1px 0px rgba(255, 255, 255, 0.79);
+  backdrop-filter: blur(5px);
+  border-radius: 68rem;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+.btn-gold:hover {
+  transform: scale(1.03);
+  opacity: 0.95;
+}
+.btn-gold::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0) 10%,
+    rgba(255, 255, 255, 0.4) 50%,
+    rgba(255, 255, 255, 0) 90%,
+    transparent 100%
+  );
+  transform: translateX(-100%) skewX(-15deg);
+  animation: btn-shimmer 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Shimmer/shine effect for CTA buttons */
+@keyframes btn-shimmer {
+  0% {
+    transform: translateX(-100%) skewX(-15deg);
+  }
+  100% {
+    transform: translateX(200%) skewX(-15deg);
+  }
+}
+
+@media (max-width: 768px) {
+  .btn-gold {
+    padding: 16px 40px !important;
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    width: auto;
+  }
+}
+
+.btn-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0) 10%,
+    rgba(255, 255, 255, 0.4) 50%,
+    rgba(255, 255, 255, 0) 90%,
+    transparent 100%
+  );
+  transform: translateX(-100%) skewX(-15deg);
+  animation: btn-shimmer 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Hover effect for cards */
+.card-hover {
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+.card-hover:hover {
+  transform: translateY(-8rem);
+  box-shadow: 0 20rem 40rem rgba(255,255,255,0.35);
+}
+
+/* Slow rotation for suns */
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.sun-rotate {
+  animation: spin-slow 30s linear infinite;
+}
+
+/* Float animation for girl image - moves up to reveal text, then down to overlap */
+@keyframes girl-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-70rem); }
+}
+.girl-cloud-img {
+  animation: girl-float 10s ease-in-out infinite;
+}
+
+/* Image hover zoom */
+.img-zoom {
+  overflow: hidden;
+}
+.img-zoom img {
+  transition: transform 0.4s ease;
+}
+.img-zoom:hover img {
+  transform: scale(1.05);
+}
+
+/* Tablet: 768-1024px */
+@media (max-width: 1024px) {
+  html {
+    font-size: calc(100vw / 1024);
+  }
+}
+
+/* Mobile: <768px */
+@media (max-width: 768px) {
+  html {
+    /* Mobile: 1rem = 1px при 375px екрані */
+    font-size: calc(100vw / 375);
+  }
+}
+
+@layer base {
+  :root {
+    --background: 203 79% 69%;
+    --foreground: 215 50% 23%;
+
+    --card: 210 100% 98%;
+    --card-foreground: 215 50% 23%;
+
+    --popover: 210 100% 98%;
+    --popover-foreground: 215 50% 23%;
+
+    --primary: 210 80% 55%;
+    --primary-foreground: 210 100% 98%;
+
+    --secondary: 200 60% 85%;
+    --secondary-foreground: 215 50% 23%;
+
+    --muted: 210 40% 90%;
+    --muted-foreground: 215 30% 50%;
+
+    --accent: 280 60% 70%;
+    --accent-foreground: 280 80% 20%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 210 40% 85%;
+    --input: 210 40% 85%;
+    --ring: 210 80% 55%;
+
+    --radius: 1rem;
+
+    /* Custom AYA colors */
+    --sky-light: 200 100% 95%;
+    --sky-medium: 210 90% 85%;
+    --sky-deep: 220 80% 70%;
+    --cloud: 0 0% 100%;
+    --cloud-shadow: 210 30% 90%;
+    --sun-glow: 45 100% 70%;
+
+    /* Gradients */
+    --gradient-sky: linear-gradient(180deg, 
+      hsl(200 100% 92%) 0%, 
+      hsl(210 90% 85%) 40%, 
+      hsl(220 80% 78%) 100%);
+    
+    --gradient-title: linear-gradient(135deg,
+      hsl(215 50% 30%) 0%,
+      hsl(210 60% 45%) 50%,
+      hsl(280 40% 50%) 100%);
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 220 50% 10%;
+    --foreground: 210 40% 98%;
+
+    --card: 220 50% 12%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 220 50% 12%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 70% 60%;
+    --primary-foreground: 220 50% 10%;
+
+    --secondary: 220 40% 20%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 220 40% 18%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 280 50% 60%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 220 40% 18%;
+    --input: 220 40% 18%;
+    --ring: 210 70% 60%;
+
+    --sky-light: 220 40% 15%;
+    --sky-medium: 220 50% 20%;
+    --sky-deep: 220 60% 25%;
+    --cloud: 220 30% 30%;
+
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply text-foreground;
+    background-color: #73BEEC;
+    font-family: 'Inter', sans-serif;
+  }
+
+  /*
+    Fluid Typography from Figma Design
+    Uses clamp() for smooth scaling between viewport sizes
+    Formula: clamp(min, preferred, max)
+    - min: mobile size
+    - preferred: scales with viewport (vw)
+    - max: desktop size from Figma
+  */
+
+  h1 {
+    font-family: 'Marck Script', cursive;
+    font-size: 115rem;
+    line-height: 0.85;
+    letter-spacing: 1.2rem;
+  }
+
+  h2 {
+    font-family: 'Marck Script', cursive;
+    font-size: 115rem;
+    line-height: 0.85;
+    letter-spacing: 1.2rem;
+  }
+
+  h3 {
+    font-family: 'Inter', sans-serif;
+    font-size: 38rem;
+    line-height: 1;
+    letter-spacing: -0.8rem;
+  }
+
+  h4 {
+    font-family: 'Inter', sans-serif;
+    font-size: 28rem;
+    line-height: 1.15;
+    letter-spacing: -0.6rem;
+  }
+
+  h5 {
+    font-family: 'Inter', sans-serif;
+    font-size: 22rem;
+    line-height: 1.2;
+    letter-spacing: -0.4rem;
+  }
+
+  h6 {
+    font-family: 'Inter', sans-serif;
+    font-size: 18rem;
+    line-height: 1.4;
+    letter-spacing: -0.4rem;
+  }
+}
+
+@layer utilities {
+  .text-gradient-title {
+    background: var(--gradient-title);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .bg-sky-gradient {
+    background: var(--gradient-sky);
+  }
+
+  .text-cloud {
+    color: hsl(var(--cloud));
+  }
+
+  /* ========================================
+     AYA Typography Utilities from Figma
+     ======================================== */
+
+  /* Display - Marck Script (Section Headers) */
+  .text-display-hero {
+    font-family: 'Marck Script', cursive;
+    font-size: 114rem;
+    line-height: 0.96;
+    letter-spacing: -4.6rem;
+  }
+
+  .text-display-section {
+    font-family: 'Marck Script', cursive;
+    font-size: 115rem;
+    line-height: 0.85;
+    letter-spacing: 1.2rem;
+  }
+
+  .text-display-accent {
+    font-family: 'Marck Script', cursive;
+    font-size: 36rem;
+    line-height: 1;
+    letter-spacing: -0.7rem;
+  }
+
+  /* Headings - Lora */
+  .text-heading-xl {
+    font-family: 'Inter', sans-serif;
+    font-size: 38rem;
+    line-height: 1;
+    letter-spacing: -0.8rem;
+  }
+
+  .text-heading-lg {
+    font-family: 'Inter', sans-serif;
+    font-size: 28rem;
+    line-height: 1.15;
+    letter-spacing: -0.6rem;
+  }
+
+  .text-heading-md {
+    font-family: 'Inter', sans-serif;
+    font-size: 22rem;
+    line-height: 1.2;
+    letter-spacing: -0.4rem;
+  }
+
+  .text-heading-sm {
+    font-family: 'Inter', sans-serif;
+    font-size: 18rem;
+    line-height: 1.4;
+    letter-spacing: -0.4rem;
+  }
+
+  /* Body - Inter & Lora */
+  .text-body-lg {
+    font-family: 'Inter', sans-serif;
+    font-size: 24rem;
+    line-height: 1.2;
+  }
+
+  .text-body-md {
+    font-family: 'Inter', sans-serif;
+    font-size: 18rem;
+    line-height: 1.45;
+    letter-spacing: -0.2rem;
+  }
+
+  .text-body-sm {
+    font-family: 'Inter', sans-serif;
+    font-size: 17rem;
+    line-height: 1.25;
+    letter-spacing: -0.2rem;
+  }
+
+  /* UI Elements - Inter */
+  .text-nav {
+    font-family: 'Inter', sans-serif;
+    font-size: 17rem;
+    line-height: 1.25;
+    letter-spacing: -0.2rem;
+  }
+
+  .text-button {
+    font-family: 'Inter', sans-serif;
+    font-size: 18rem;
+    line-height: 1;
+    letter-spacing: -0.2rem;
+  }
+
+  /* Meta - Lora */
+  .text-meta {
+    font-family: 'Inter', sans-serif;
+    font-size: 17rem;
+    line-height: 1.1;
+    letter-spacing: -0.3rem;
+  }
+
+  .text-tag {
+    font-family: 'Inter', sans-serif;
+    font-size: 14rem;
+    line-height: 1.1;
+    letter-spacing: -0.3rem;
+    font-weight: 500;
+  }
+
+  /* Gradient text for headers */
+  .text-gradient-blue {
+    background: linear-gradient(180deg, #80A5FF 0%, #34D1FF 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ========================================
+     Responsive Grid Utilities
+     ======================================== */
+
+  /* Social cards grid - 4 → 2 → 1 */
+  .grid-social {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  @media (max-width: 1024px) {
+    .grid-social {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .grid-social {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Video grid - 3 → 2 → 1 */
+  .grid-video {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12rem;
+  }
+
+  @media (max-width: 1024px) {
+    .grid-video {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .grid-video {
+      grid-template-columns: 1fr;
+      padding: 0 20rem !important;
+    }
+
+    .grid-video > div {
+      min-height: unset !important;
+      aspect-ratio: 16 / 9;
+    }
+  }
+
+  /* Content grid - 2 → 1 */
+  .grid-content {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 768px) {
+    .grid-content {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Masonry grid - 3 → 2 → 1 */
+  .grid-masonry {
+    display: flex;
+    gap: 10rem;
+  }
+
+  @media (max-width: 1024px) {
+    .grid-masonry {
+      gap: 16rem;
+    }
+    .grid-masonry > div:nth-child(3) {
+      display: none;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .grid-masonry {
+      flex-direction: column;
+      gap: 16rem;
+    }
+    .grid-masonry > div:nth-child(2),
+    .grid-masonry > div:nth-child(3) {
+      display: none;
+    }
+    .grid-masonry > div:first-child {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  /* Testimonials - 3 → 1 */
+  .grid-testimonials {
+    display: flex;
+    gap: 40rem;
+    justify-content: center;
+  }
+
+  @media (max-width: 1024px) {
+    .grid-testimonials {
+      gap: 24rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .grid-testimonials {
+      flex-direction: column;
+      align-items: center;
+      gap: 40rem;
+    }
+    .grid-testimonials > div {
+      max-width: 300rem !important;
+    }
+  }
+
+  /* Footer row - horizontal → vertical */
+  .footer-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  @media (max-width: 768px) {
+    .footer-row {
+      flex-direction: column;
+      gap: 24rem;
+      text-align: center;
+    }
+  }
+
+  /* Hide on mobile */
+  @media (max-width: 768px) {
+    .hide-mobile {
+      display: none !important;
+    }
+  }
+
+  /* Hide on tablet */
+  @media (max-width: 1024px) {
+    .hide-tablet {
+      display: none !important;
+    }
+  }
+
+  /* Academy section responsive */
+  .academy-container {
+    position: relative;
+    width: 1041rem;
+    height: 1050rem;
+    margin: 0 auto 100rem;
+  }
+
+  @media (max-width: 1024px) {
+    .academy-container {
+      width: 100%;
+      height: auto;
+      padding: 0 40rem;
+      display: flex;
+      flex-direction: column;
+      gap: 24rem;
+    }
+    .academy-container .academy-card {
+      position: relative !important;
+      left: auto !important;
+      top: auto !important;
+      width: 100% !important;
+      height: auto !important;
+      max-width: 500rem;
+      margin: 0 auto;
+    }
+    .academy-container .academy-flip-inner {
+      position: relative;
+      width: 100%;
+      height: auto;
+    }
+    .academy-container .academy-flip-front {
+      position: relative;
+      width: 100%;
+      height: 250rem;
+      border-radius: 27rem;
+      overflow: hidden;
+      box-shadow: 0 4rem 24rem rgba(255, 255, 255, 0.3);
+    }
+    .academy-container .academy-flip-back {
+      position: relative;
+      width: 100%;
+      height: auto !important;
+      min-height: 320rem;
+      border-radius: 28rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .academy-container {
+      padding: 0 20rem;
+      gap: 20rem;
+    }
+    .academy-container .academy-card {
+      max-width: 100%;
+    }
+    .academy-container .academy-flip-front {
+      height: auto;
+      aspect-ratio: 1 / 0.94;
+    }
+    .academy-container .academy-flip-back {
+      min-height: auto;
+      padding: 24rem !important;
+      gap: 16px;
+    }
+  }
+
+  /* Academy flip cards - desktop only */
+  @media (min-width: 1025px) {
+    .academy-card {
+      perspective: 1200rem;
+    }
+
+    .academy-flip-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+      transform-style: preserve-3d;
+    }
+
+    .academy-card:hover .academy-flip-inner {
+      transform: rotateY(180deg);
+    }
+
+    .academy-flip-front,
+    .academy-flip-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      border-radius: 28rem;
+      overflow: hidden;
+    }
+
+    .academy-flip-front {
+      z-index: 2;
+      box-shadow: 0 4rem 24rem rgba(255, 255, 255, 0.3);
+    }
+
+    .academy-flip-back {
+      transform: rotateY(180deg);
+    }
+  }
+
+  /* Section title responsive */
+  .section-title {
+    font-size: 115rem;
+    line-height: 97rem;
+  }
+
+  @media (max-width: 1024px) {
+    .section-title {
+      font-size: 80rem;
+      line-height: 70rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .section-title {
+      font-size: 54rem;
+      line-height: 42rem;
+      letter-spacing: 0.01em;
+    }
+  }
+
+  /* Hero title responsive */
+  .hero-title {
+    font-size: 90rem;
+  }
+
+  @media (max-width: 1024px) {
+    .hero-title {
+      font-size: 70rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: 45rem;
+    }
+  }
+
+  /* Light beam - hide on mobile */
+  @media (max-width: 768px) {
+    .light-beam {
+      display: none;
+    }
+  }
+
+  /* LightRays WebGL overlay - 50% opacity on mobile */
+  @media (max-width: 768px) {
+    .light-rays-overlay {
+      opacity: 0.5;
+    }
+  }
+
+  /* Girl cloud image responsive */
+  @media (max-width: 1024px) {
+    .girl-cloud-img {
+      width: 100% !important;
+      max-width: 800rem !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .girl-cloud-img {
+      margin-top: -20rem !important;
+      margin-bottom: 80rem !important;
+    }
+  }
+
+  @media (max-width: 768px) {
+    @keyframes girl-float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-30rem); }
+    }
+  }
+
+  /* Hero woman image responsive */
+  .hero-woman {
+    transition: all 0.3s ease;
+  }
+
+  @media (max-width: 1024px) {
+    .hero-woman {
+      width: 320rem !important;
+      bottom: 0 !important;
+      top: auto !important;
+    }
+    .hero-woman img {
+      width: 320rem !important;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .hero-woman {
+      width: 260rem !important;
+      bottom: 20rem !important;
+    }
+    .hero-woman img {
+      width: 260rem !important;
+    }
+  }
+
+  /* Hero section responsive */
+  @media (max-width: 1024px) {
+    .hero-section {
+      min-height: 100vh;
+      height: auto !important;
+      display: flex;
+      flex-direction: column;
+    }
+    .hero-title-wrapper {
+      margin-top: 80rem !important;
+      padding: 0 30rem !important;
+      position: relative;
+      z-index: 20 !important;
+    }
+    .hero-woman {
+      position: relative !important;
+      margin-top: auto;
+      z-index: 10;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .hero-section {
+      min-height: 100svh;
+    }
+    .hero-title-wrapper {
+      margin-top: 100rem !important;
+      padding: 0 20rem !important;
+    }
+  }
+
+  /* Hide cat on mobile */
+  @media (max-width: 768px) {
+    .hero-cat {
+      display: none !important;
+    }
+  }
+
+  /* Fix text overlap on mobile */
+  @media (max-width: 768px) {
+    #academies .section-title:last-of-type {
+      position: relative;
+      z-index: 10;
+      padding-bottom: 120rem;
+    }
+  }
+
+  /* Card images responsive */
+  @media (max-width: 768px) {
+    .card-image {
+      width: 120rem !important;
+      height: 140rem !important;
+    }
+  }
+
+  /* Meditation/Book card responsive */
+  @media (max-width: 768px) {
+    .content-card {
+      flex-direction: column !important;
+      align-items: flex-start !important;
+    }
+    .content-card img {
+      width: 100% !important;
+      height: 200rem !important;
+    }
+  }
+
+  /* ========================================
+     Meditations Page Responsive
+     ======================================== */
+
+  /* Intro section - text + image */
+  .meditation-intro {
+    display: flex;
+    gap: 60rem;
+    align-items: flex-start;
+  }
+
+  @media (max-width: 1024px) {
+    .meditation-intro {
+      flex-direction: column;
+      gap: 40rem;
+    }
+    .meditation-intro-image {
+      width: 100% !important;
+      max-width: 400rem;
+      margin: 0 auto;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .meditation-intro {
+      gap: 30rem;
+    }
+    .meditation-intro-title {
+      font-size: 28rem !important;
+    }
+    .meditation-intro-text {
+      font-size: 14rem !important;
+    }
+  }
+
+  /* Book intro section - text + cover */
+  .book-intro {
+    display: flex;
+    gap: 60rem;
+    align-items: flex-start;
+  }
+
+  /* Book intro reversed - cover + text */
+  .book-intro-reversed {
+    display: flex;
+    gap: 40rem;
+    align-items: flex-start;
+  }
+
+  @media (max-width: 1024px) {
+    .book-intro {
+      flex-direction: column-reverse;
+      gap: 40rem;
+    }
+    .book-intro-reversed {
+      flex-direction: column;
+      gap: 40rem;
+    }
+    .book-intro-image {
+      width: 100% !important;
+      max-width: 400rem;
+      margin: 0 auto;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .book-intro {
+      gap: 30rem;
+    }
+    .book-intro-reversed {
+      gap: 30rem;
+    }
+    .book-intro-title {
+      font-size: 24rem !important;
+    }
+    .book-intro-text {
+      font-size: 13rem !important;
+    }
+  }
+
+  /* Page title responsive (legacy) */
+  .page-title {
+    font-size: 115rem;
+  }
+
+  @media (max-width: 1024px) {
+    .page-title {
+      font-size: 80rem !important;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .page-title {
+      font-size: 50rem !important;
+      margin-bottom: 40rem !important;
+    }
+  }
+
+  /* ===== Page Hero — unified responsive system ===== */
+  .page-hero {
+    padding-top: 140rem;
+    padding-bottom: 60rem;
+  }
+
+  .page-hero-title {
+    font-size: 120rem;
+    line-height: 0.85;
+    color: #fff;
+    text-shadow: 0 2rem 20rem rgba(106, 180, 255, 0.5);
+  }
+
+  .page-hero-subtitle {
+    font-size: 24rem;
+    margin-top: 16rem;
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  @media (max-width: 1024px) {
+    .page-hero {
+      padding-top: 130px;
+      padding-bottom: 40px;
+    }
+    .page-hero-title {
+      font-size: 72px;
+    }
+    .page-hero-subtitle {
+      font-size: 18px;
+      margin-top: 12px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .page-hero {
+      padding-top: 130px;
+      padding-bottom: 32px;
+    }
+    .page-hero-title {
+      font-size: 48px;
+    }
+    .page-hero-subtitle {
+      font-size: 16px;
+      margin-top: 10px;
+      padding: 0 16px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .page-hero-title {
+      font-size: 32px;
+    }
+    .page-hero-subtitle {
+      font-size: 15px;
+    }
+  }
+
+  /* Block cards responsive */
+  .block-card {
+    display: flex;
+    align-items: center;
+    gap: 24rem;
+  }
+
+  @media (max-width: 768px) {
+    .block-card {
+      flex-direction: row;
+      align-items: center;
+      gap: 16rem;
+      padding: 16rem !important;
+    }
+    .block-card-image {
+      width: 120rem !important;
+      height: 140rem !important;
+      flex-shrink: 0;
+      aspect-ratio: auto;
+    }
+    .block-card-content {
+      align-items: flex-start !important;
+      text-align: left;
+    }
+    .block-card-actions {
+      flex-direction: row !important;
+      gap: 12rem !important;
+    }
+  }
+
+  /* Blocks container responsive */
+  .blocks-container {
+    max-width: 700rem;
+    padding: 0 40rem;
+  }
+
+  @media (max-width: 768px) {
+    .blocks-container {
+      padding: 0 20rem;
+    }
+  }
+
+  /* Ukrainian section responsive */
+  .ukrainian-description {
+    max-width: 800rem;
+    padding: 0 40rem;
+  }
+
+  @media (max-width: 768px) {
+    .ukrainian-description {
+      padding: 0 20rem;
+    }
+    .ukrainian-description p {
+      font-size: 15rem !important;
+    }
+  }
+
+  /* Practices card responsive */
+  .practices-card {
+    display: flex;
+    align-items: center;
+    gap: 24rem;
+  }
+
+  @media (max-width: 768px) {
+    .practices-card {
+      flex-direction: column;
+      text-align: center;
+    }
+    .practices-card-image {
+      width: 100% !important;
+      max-width: 200rem !important;
+      height: auto !important;
+    }
+    .practices-card-content {
+      align-items: center !important;
+    }
+    .practices-card-title {
+      font-size: 20rem !important;
+    }
+    .practices-card-actions {
+      flex-direction: column !important;
+      gap: 12rem !important;
+    }
+  }
+
+  /* Message section responsive */
+  .message-heading {
+    max-width: 756rem;
+    padding: 0 40rem;
+  }
+
+  @media (max-width: 768px) {
+    .message-heading {
+      padding: 0 20rem;
+      font-size: 22rem !important;
+      line-height: 1.3 !important;
+    }
+  }
+
+  .message-text {
+    max-width: 493rem;
+    padding: 0 40rem;
+  }
+
+  @media (max-width: 768px) {
+    .message-text {
+      padding: 0 20rem;
+      font-size: 14rem !important;
+    }
+  }
+
+  .message-signature {
+    white-space: nowrap;
+  }
+
+  @media (max-width: 768px) {
+    .message-signature {
+      white-space: normal !important;
+      font-size: 20rem !important;
+      line-height: 1.4 !important;
+      padding: 0 20rem !important;
+    }
+  }
+
+  /* Girl section title responsive */
+  .girl-section-title {
+    font-size: 70rem;
+  }
+
+  @media (max-width: 1024px) {
+    .girl-section-title {
+      font-size: 55rem !important;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .girl-section-title {
+      font-size: 36rem !important;
+    }
+  }
+
+  /* ========================================
+     MOBILE ADAPTATION - Index Page
+     ======================================== */
+
+  /* Mobile cat - show only on mobile */
+  .mobile-cat {
+    display: none !important;
+  }
+
+  /* Hero mobile cat - hide on desktop */
+  .hero-mobile-cat {
+    display: none;
+  }
+
+  /* Hero mobile composited image - hide on desktop */
+  .hero-mobile-image {
+    display: none;
+  }
+
+  /* Cloud after meditations - positioned in academies section */
+  .cloud-after-meditations {
+    opacity: 0.8;
+  }
+
+  /* Priority 1: Academy Section */
+  @media (max-width: 768px) {
+    #academies {
+      padding-bottom: 60rem !important;
+    }
+
+    /* Show cat on mobile */
+    .mobile-cat {
+      display: block !important;
+      right: 5rem !important;
+      bottom: 180rem !important;
+      width: 80rem !important;
+    }
+
+    /* Show cloud after meditations on mobile */
+    .cloud-after-meditations {
+      display: block !important;
+      position: relative !important;
+      right: -60% !important;
+      margin-top: -80rem !important;
+      width: 200rem !important;
+    }
+
+    .aya-guide-title {
+      font-size: 46rem !important;
+      line-height: 42rem !important;
+    }
+
+    #academies img[src*="sunshine"] {
+      width: 400rem !important;
+      height: 400rem !important;
+      top: auto !important;
+      bottom: 0 !important;
+    }
+
+    /* Fix Meditations title negative margin - push below scaled clouds */
+    #academies h2[style*="marginTop: -250rem"],
+    #academies h2[style*="margin-top: -250rem"] {
+      margin-top: 300rem !important;
+    }
+  }
+
+  /* Priority 2: EventSlider */
+  @media (max-width: 768px) {
+    .event-slider-container {
+      height: auto !important;
+      min-height: 550rem;
+      padding: 0 16rem !important;
+    }
+
+    .event-slider-cards {
+      height: auto !important;
+      min-height: 500rem;
+    }
+
+    .event-card {
+      width: 100% !important;
+      max-width: 300rem !important;
+    }
+
+    .event-card-photo {
+      width: 100% !important;
+      max-width: 300rem !important;
+      height: 220rem !important;
+    }
+
+    .event-card-content {
+      width: 100% !important;
+      max-width: 300rem !important;
+      height: auto !important;
+      min-height: unset !important;
+      padding: 20rem !important;
+      justify-content: flex-start !important;
+    }
+
+    .event-card-content h3 {
+      font-size: 22rem !important;
+    }
+
+    .event-card-content p {
+      font-size: 13rem !important;
+    }
+
+    /* Hide side cards on mobile */
+    .event-card-left,
+    .event-card-right {
+      opacity: 0.3 !important;
+      transform: scale(0.85) !important;
+    }
+
+    .slider-dots {
+      margin-top: 5rem !important;
+    }
+  }
+
+  /* Priority 3: Streams Section (Потоки Айа) */
+  @media (max-width: 768px) {
+    #streams {
+      padding-top: 60rem !important;
+    }
+
+    #streams .section-title {
+      padding-top: 350rem !important;
+    }
+
+    #streams .grid-social {
+      padding: 40rem 20rem 30rem !important;
+      gap: 16rem !important;
+    }
+
+    #streams .card-hover {
+      max-width: 100% !important;
+      min-height: auto !important;
+      padding: 20rem !important;
+      border-radius: 20rem !important;
+      justify-content: flex-start !important;
+      gap: 16rem;
+    }
+
+    #streams .card-hover .font-display {
+      font-size: 22rem !important;
+    }
+
+    #streams .card-hover p {
+      font-size: 14rem !important;
+    }
+
+    #streams .card-hover a,
+    #streams .card-hover button {
+      padding: 12rem 20rem !important;
+      font-size: 14rem !important;
+    }
+  }
+
+  /* Priority 4: Meditation & Book Cards */
+  @media (max-width: 768px) {
+    .grid-content {
+      padding: 0 20rem !important;
+      gap: 16rem !important;
+    }
+
+    .grid-content > div h3 {
+      font-size: 22rem !important;
+    }
+
+    .grid-content > div span {
+      font-size: 14rem !important;
+    }
+  }
+
+  /* Priority 5: Community (Спільнота) Masonry */
+  @media (max-width: 768px) {
+    .grid-masonry {
+      padding: 0 20rem !important;
+      gap: 12rem !important;
+    }
+
+    .grid-masonry > div {
+      gap: 12rem !important;
+    }
+
+    .grid-masonry img {
+      height: 200rem !important;
+      border-radius: 16rem !important;
+    }
+
+    /* Show only first column on mobile */
+    .grid-masonry > div:nth-child(2),
+    .grid-masonry > div:nth-child(3) {
+      display: none !important;
+    }
+
+    /* Show only first 4 images */
+    .grid-masonry > div:first-child > div:nth-child(n+5) {
+      display: none !important;
+    }
+  }
+
+  /* Priority 6: Testimonials (Відгуки) */
+  @media (max-width: 768px) {
+    .grid-testimonials {
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 40rem !important;
+      padding: 0 20rem !important;
+    }
+
+    .grid-testimonials > div {
+      max-width: 280rem !important;
+      flex: unset !important;
+    }
+
+    .grid-testimonials img.sun-rotate {
+      width: 150rem !important;
+      height: 150rem !important;
+    }
+
+    .grid-testimonials p {
+      font-size: 14rem !important;
+      margin-top: 16rem !important;
+    }
+
+    #reviews {
+      padding-bottom: 60rem !important;
+    }
+
+    #reviews .flex.justify-center {
+      margin-top: 30rem !important;
+    }
+
+    #reviews .section-title {
+      padding-top: 60rem !important;
+      padding-bottom: 40rem !important;
+    }
+  }
+
+  /* Priority 7: Hero Section */
+  @media (max-width: 768px) {
+    /* Hide separate cat - it's part of Mobile-hero.png */
+    .hero-mobile-cat {
+      display: none !important;
+    }
+
+    /* Hide desktop bg on mobile - replaced by Mobile-hero.png */
+    .hero-bg-image {
+      display: none !important;
+    }
+
+    /* Show composited mobile hero image */
+    .hero-mobile-image {
+      display: block !important;
+      width: 100%;
+      height: auto;
+      position: relative;
+      z-index: 5;
+      margin-top: -300rem !important;
+    }
+
+    .hero-section {
+      height: auto !important;
+      min-height: auto !important;
+      padding-bottom: 0 !important;
+      overflow: hidden;
+    }
+
+    .hero-section > div:first-child {
+      height: 0rem !important;
+    }
+
+    .hero-title-wrapper {
+      margin-top: 80rem !important;
+      padding: 0 16rem !important;
+      z-index: 30 !important;
+    }
+
+    .hero-title {
+      font-size: 38rem !important;
+      line-height: 1.15 !important;
+    }
+
+    .hero-woman {
+      display: none !important;
+    }
+
+    .hero-cat {
+      display: none !important;
+    }
+  }
+
+  /* Priority 8: Footer */
+  @media (max-width: 768px) {
+    footer {
+      padding-bottom: 0rem !important;
+    }
+
+    footer .hero-title {
+      padding-top: 20rem !important;
+      padding-bottom: 16rem !important;
+      font-size: 36rem !important;
+    }
+
+    footer > .flex.justify-center {
+      margin-bottom: 20rem !important;
+    }
+
+    footer button {
+      padding: 14rem 36rem !important;
+      font-size: 15rem !important;
+      border-radius: 30rem !important;
+      margin-bottom: 0rem !important;
+    }
+
+    .footer-row {
+      padding: 0 20rem !important;
+      gap: 10rem !important;
+      margin-bottom: 0 !important;
+    }
+
+    .footer-row .flex.items-center {
+      gap: 12rem !important;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .footer-row svg {
+      width: 24rem !important;
+      height: 24rem !important;
+    }
+
+    .footer-row a {
+      font-size: 14rem !important;
+    }
+
+    footer > div:last-child {
+      padding-top: 0rem !important;
+    }
+
+    footer > div:last-child img {
+      height: 160rem !important;
+      object-fit: cover;
+      object-position: top;
+    }
+  }
+
+  /* Priority 9: Decorative Elements */
+  @media (max-width: 768px) {
+    /* Hide crystals on mobile */
+    #events img[src*="crystal"] {
+      display: none !important;
+    }
+
+    /* Hide diamonds (already handled by hide-tablet) */
+    img[src*="diamant"] {
+      display: none !important;
+    }
+
+    /* Reduce decorative cloud sizes */
+    img[src*="cloud-l"],
+    img[src*="Cloud-L"] {
+      opacity: 0.5 !important;
+    }
+  }
+
+  /* Section titles mobile */
+  @media (max-width: 768px) {
+    .section-title {
+      padding-top: 50rem !important;
+      padding-bottom: 30rem !important;
+    }
+  }
+
+  /* Events section mobile */
+  @media (max-width: 768px) {
+    #events {
+      padding-bottom: 40rem !important;
+    }
+
+    #events .section-title {
+      padding-top: 60rem !important;
+      padding-bottom: 30rem !important;
+    }
+  }
+}
+
+/* ===== MOBILE HERO FIX — unlayered (вищий пріоритет за @layer) ===== */
+@media (max-width: 768px) {
+  .hero-section {
+    height: auto !important;
+    min-height: unset !important;
+    background: linear-gradient(180deg, #EAF4FB 0%, #D6ECF8 40%, #A8D6F0 70%, #73BEEC 100%) !important;
+    padding-bottom: 60px !important;
+  }
+  .hero-bg-image {
+    display: none !important;
+  }
+  .hero-mobile-image {
+    display: block !important;
+    margin-top: -300rem !important;
+    margin-bottom: 0 !important;
+    position: relative;
+    z-index: 1;
+  }
+  #streams {
+    padding-top: 0 !important;
+  }
+  #streams .section-title {
+    padding-top: 40rem !important;
+  }
+}
+
+/* ========================================
+   Fullscreen Mobile Menu
+   ======================================== */
+
+.mobile-menu-overlay {
+  animation: menu-fade-in 0.35s ease-out forwards;
+}
+
+@keyframes menu-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.mobile-menu-item {
+  opacity: 0;
+  transform: translateY(16px);
+  animation: menu-item-in 0.35s ease-out forwards;
+}
+
+@keyframes menu-item-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.mobile-menu-item:nth-child(1) { animation-delay: 0.06s; }
+.mobile-menu-item:nth-child(2) { animation-delay: 0.10s; }
+.mobile-menu-item:nth-child(3) { animation-delay: 0.14s; }
+.mobile-menu-item:nth-child(4) { animation-delay: 0.18s; }
+.mobile-menu-item:nth-child(5) { animation-delay: 0.22s; }
+.mobile-menu-item:nth-child(6) { animation-delay: 0.26s; }
+.mobile-menu-item:nth-child(7) { animation-delay: 0.30s; }
+.mobile-menu-item:nth-child(8) { animation-delay: 0.34s; }
+.mobile-menu-item:nth-child(9) { animation-delay: 0.38s; }
+
+@keyframes cloud-menu-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.mobile-menu-cloud {
+  animation: cloud-menu-float 6s ease-in-out infinite;
+}
